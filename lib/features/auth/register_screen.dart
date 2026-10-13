@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -12,6 +11,7 @@ class RegisterScreen extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
+            const SizedBox(height: 12),
             TextField(
               decoration: const InputDecoration(
                 labelText: 'Full name',
@@ -37,7 +37,7 @@ class RegisterScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => context.go('/home'),
+                onPressed: () => Navigator.of(context).pop(),
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 14),
                   child: Text('Register'),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'core/routes/app_routes.dart';
 import 'core/services/tenant_service.dart';
@@ -10,7 +9,7 @@ class EcommerceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tenantService = context.watch<TenantService>();
+    final tenantService = context.read<TenantService>();
 
     return MaterialApp.router(
       title: 'TenantCart',

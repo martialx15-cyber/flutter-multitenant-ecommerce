@@ -1,13 +1,11 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 
-import 'app.dart';
-import 'core/routes/app_routes.dart';
+import 'core/providers/auth_provider.dart';
+import 'core/providers/cart_provider.dart';
 import 'core/services/tenant_service.dart';
+import 'core/theme/app_theme.dart';
+import 'core/routes/app_routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +17,8 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<TenantService>.value(value: tenantService),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: const EcommerceApp(),
     ),

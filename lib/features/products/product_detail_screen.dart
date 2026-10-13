@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../../core/models/product.dart';
+import '../../core/providers/cart_provider.dart';
+import '../../core/services/product_service.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final String productId;
@@ -7,6 +13,19 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final product = ProductService.getProductById(productId) ??
+        Product(
+          id: productId,
+          tenantId: 'tenant_001',
+          name: 'Sample Product',
+          price: 99.00,
+          category: 'General',
+          description: 'Product details will load from your API and backend.',
+          imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
+          rating: 4.6,
+          stock: 12,
+        );
+
     return Scaffold(
       appBar: AppBar(title: const Text('Product details')),
       body: Padding(
@@ -14,34 +33,61 @@ class ProductDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 220,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.grey[200],
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                product.imageUrl,
+                height: 220,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
-              child: const Icon(Icons.image, size: 100, color: Colors.grey),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Premium Product',
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            Text(
+              product.name,
+              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text('Product ID: $productId'),
+            Text('⭐ ${product.rating} • ${product.category}'),
             const SizedBox(height: 12),
-            const Text(
-              'This is a starter detail page for your multi-tenant ecommerce product catalog. Connect this to your API and product model for live inventory and pricing.',
+            Text(
+              '\$${product.price.toStringAsFixed(2)}',
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 16),
+            Text(product.description),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                const Icon(Icons.inventory_2_outlined),
+                const SizedBox(width: 8),
+                Text('${product.stock} items available'),
+              ],
             ),
             const Spacer(),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<CartProvider>().addItem(product);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('${product.name} added to cart')),
+                  );
+                },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Text('Add to cart'),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () => context.go('/cart'),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                  child: Text('View cart'),
                 ),
               ),
             ),

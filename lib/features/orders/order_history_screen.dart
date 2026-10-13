@@ -6,9 +6,9 @@ class OrderHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orders = [
-      {'id': '#1042', 'status': 'Paid', 'amount': '\$378'},
-      {'id': '#1045', 'status': 'Shipped', 'amount': '\$199'},
-      {'id': '#1048', 'status': 'Delivered', 'amount': '\$82'},
+      {'id': '#1042', 'status': 'Paid', 'amount': '\$378.00'},
+      {'id': '#1045', 'status': 'Shipped', 'amount': '\$199.00'},
+      {'id': '#1048', 'status': 'Delivered', 'amount': '\$82.00'},
     ];
 
     return Scaffold(
